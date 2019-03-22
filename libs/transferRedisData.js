@@ -49,7 +49,7 @@ function transfer() {
         err ? console.log(err) : null;     
 		let promises = keys.map(key => new Promise((resolve, reject) => {
             client.hgetall(keys[i], (err, result) => {
-                err ? reject(err);                                  
+                err ? reject(err) : null;                                 
                 resolve(result);
             });
         }));
