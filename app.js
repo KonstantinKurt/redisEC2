@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const http = require('http');
 const https = require('https');
 
 const redisConnection = require('./connections/redisConnection.js')
