@@ -46,29 +46,33 @@ function sendRequest(values) {
 function transfer() {
     let values = [];
     client.keys('*', function(err, keys) {
-        if (err) {
-            console.log(err);
-        }
-        let promises = [];
-        for (let i = 0; i < keys.length; i++) {
-            promises.push(
-                new Promise((resolve, reject) => {
-                    client.hgetall(keys[i], function(err, result) {
-                        if (err) {
-                            return console.log(err);
-                        }
-                        values.push(result);
-                        resolve();
-                    });
-                })
-            );
+        err ? console.log(err) : null;     
+		let promises = keys.map(key => new Promise((resolve, reject) => {
+            client.hgetall(keys[i], (err, result) => {
+                err ? reject(err);                                  
+                resolve(result);
+            });
+        }));
 
-        }
-        Promise.all(promises).then(() => {
-            if (values.length != 0) {
-                sendRequest(values);
-            }
-        })
+        // for (let i = 0; i < keys.length; i++) {
+        //     promises.push(
+        //         new Promise((resolve, reject) => {
+        //             client.hgetall(keys[i], function(err, result) {
+        //                 if (err) {
+        //                     return console.log(err);
+        //                 }
+        //                 values.push(result);
+        //                 resolve();
+        //             });
+        //         })
+        //     );
+
+        // }
+
+        Promise
+	        .all(promises)
+	        .then((arr) => sendRequest(arr))
+	        .catch(err=>console.log(err))
     });
 };
 
