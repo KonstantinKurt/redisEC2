@@ -24,14 +24,3 @@ const httpServer = http.createServer(app);
 const httpsServer = https.createServer(options, app);
 httpServer.listen(process.env.HTTP_PORT);
 httpsServer.listen(process.env.HTTPS_PORT);
-
-
-// https.createServer(options, app).listen(process.env.PORT, function(){
-//   redisConnection();
-//   console.log("Express server listening on port " + process.env.PORT);
-// });
-
-// app.listen(process.env.PORT, () => {
-//     redisConnection();
-//     console.log(`Server runs on http://localhost:'  ${process.env.PORT}  '; Ctrl+C for exit `);
-// });

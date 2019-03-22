@@ -31,8 +31,7 @@ function sendRequest(values) {
     const req = https.request(options, (res) => {
         console.log(`statusCode: ${res.statusCode}`)
         res.on('data', (d) => {
-            //process.stdout.write(d)
-            console.log(d);
+            process.stdout.write(d)
             clearRedis();
         })
     })
