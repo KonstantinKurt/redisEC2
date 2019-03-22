@@ -1,7 +1,6 @@
 const dataController = require('../controllers/dataController.js');
 const redis = require('redis');
 const client = redis.createClient();
-const fetch = require('node-fetch');
 const http = require('http');
 const https = require('https');
 var querystring = require('querystring');
@@ -16,7 +15,7 @@ function clearRedis() {
     });
 };
 
-function sendRequest() {
+function sendRequest(values) {
     const data = JSON.stringify(values);
 
     const options = {
@@ -68,7 +67,7 @@ function transfer() {
         }
         Promise.all(promises).then(() => {
             if (values.length != 0) {
-                sendRequest();
+                sendRequest(values);
             }
         })
     });
