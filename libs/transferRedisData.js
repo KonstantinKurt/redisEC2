@@ -33,7 +33,7 @@ function sendRequest(values) {
 	    })
 	    .on('error', error => console.error(error))
 	    .write(data)
-	    .end()
+	    
 }
 
 
