@@ -44,11 +44,10 @@ function sendRequest(values) {
 
 
 function transfer() {
-    let values = [];
     client.keys('*', function(err, keys) {
         err ? console.log(err) : null;     
 		let promises = keys.map(key => new Promise((resolve, reject) => {
-            client.hgetall(keys[i], (err, result) => {
+            client.hgetall(key, (err, result) => {
                 err ? reject(err) : null;                                 
                 resolve(result);
             });
@@ -71,8 +70,8 @@ function transfer() {
 
         Promise
 	        .all(promises)
-	        .then((arr) => sendRequest(arr))
-	        .catch(err=>console.log(err))
+	        .then(arr => arr.length ? sendRequest(arr) : null)
+	        .catch(err => console.log(err))
     });
 };
 
