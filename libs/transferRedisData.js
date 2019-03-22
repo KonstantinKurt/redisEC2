@@ -3,8 +3,6 @@ const redis = require('redis');
 const client = redis.createClient();
 const http = require('http');
 const https = require('https');
-var querystring = require('querystring');
-const request = require('request')
 
 function clearRedis() {
     client.flushdb((err, succeeded) => {
@@ -34,8 +32,8 @@ function sendRequest(values) {
 	        })
 	    })
 	    .on('error', error => console.error(error))
-	    // .write(data)
-	    // .end()
+	    .write(data)
+	    .end()
 }
 
 
