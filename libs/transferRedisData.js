@@ -16,6 +16,33 @@ function clearRedis() {
     });
 };
 
+function sendRequest() {
+    const data = JSON.stringify(values);
+
+    const options = {
+        hostname: '0k5asdc3je.execute-api.eu-central-1.amazonaws.com',
+        port: 443,
+        path: '/dev/db',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+        }
+    }
+    const req = https.request(options, (res) => {
+        console.log(`statusCode: ${res.statusCode}`)
+        res.on('data', (d) => {
+            //process.stdout.write(d)
+            console.log(d);
+            clearRedis();
+        })
+    })
+    req.on('error', (error) => {
+        console.error(error)
+    })
+    req.write(data)
+    req.end()
+}
 
 
 function transfer() {
@@ -40,50 +67,9 @@ function transfer() {
 
         }
         Promise.all(promises).then(() => {
-            console.log(values);
-            // var post_data = querystring.stringify(values);
-            // var post_options = {
-            //     host: '0k5asdc3je.execute-api.eu-central-1.amazonaws.com',
-            //     port: '443',
-            //     path: '/dev/db',
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/x-www-form-urlencoded',
-            //         'Content-Length': Buffer.byteLength(post_data)
-            //     }
-            // };
-            // var post_req = https.request(post_options, function(res) {
-            //     res.setEncoding('utf8');
-            //     res.on('data', function(chunk) {
-            //         console.log('_____________________________________________Response: ' + chunk);
-            //     });
-            // });
-            //post_req.write(post_data);
-            // post_req.end();
-            const data = JSON.stringify(values);
-            console.log(`Sending data ${data}`);
-            const options = {
-                hostname: '0k5asdc3je.execute-api.eu-central-1.amazonaws.com',
-                port: 443,
-                path: '/dev/db',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': data.length
-                }
+            if (values.length != 0) {
+                sendRequest();
             }
-            const req = https.request(options, (res) => {
-                console.log(`statusCode: ${res.statusCode}`)
-                res.on('data', (d) => {
-                    process.stdout.write(d)
-                })
-            })
-            req.on('error', (error) => {
-                console.error(error)
-            })
-            req.write(data)
-            req.end()
-
         })
     });
 };
