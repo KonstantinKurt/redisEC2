@@ -5,7 +5,6 @@ const dataController = require('../controllers/dataController.js');
 
 
 router.put('/data', dataController.addData); 
-router.get('/data/:content', dataController.getData); 
 router.get('/data', dataController.getAllData);
 router.delete('/data', dataController.deleteAllData);
 
